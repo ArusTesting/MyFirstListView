@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.Toast
 import android.view.GestureDetector
 import android.view.MotionEvent
+import android.app.AlertDialog
 
 class MainActivity : AppCompatActivity() {
     var data = mutableListOf<String>()
@@ -58,5 +59,35 @@ class MainActivity : AppCompatActivity() {
             gestureDetector.onTouchEvent(event)
             false
         }
+    }
+    private fun showActionDialog(
+        position: Int,
+        selectedItem: String,
+        data: MutableList<String>,
+        adapter: ArrayAdapter<String>
+    ) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("ITEM $selectedItem")
+        builder.setMessage("Pilih tindakan yang ingin dilakukan:")
+
+        builder.setPositiveButton("Update") { _, _ ->
+            //untuk Update
+        }
+
+        builder.setNegativeButton("Hapus") { _, _ ->
+            data.removeAt(position)
+            adapter.notifyDataSetChanged()
+            Toast.makeText(
+                this,
+                "Hapus Item $selectedItem",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        builder.setNeutralButton("Batal") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        builder.create().show()
     }
 }
