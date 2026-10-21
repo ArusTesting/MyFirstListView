@@ -5,6 +5,7 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Button
+import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
     var data = mutableListOf<String>()
@@ -29,6 +30,14 @@ class MainActivity : AppCompatActivity() {
             var dtAkhir = Integer.parseInt(data.get(data.size - 1)) + 1
             data.add("$dtAkhir")
             lvAdapter.notifyDataSetChanged()
+        }
+
+        _lv1.setOnItemClickListener { parent, view, position, id ->
+            Toast.makeText(
+                this,
+                data[position],
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 }
