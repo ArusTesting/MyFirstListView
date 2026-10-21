@@ -6,6 +6,8 @@ import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Button
 import android.widget.Toast
+import android.view.GestureDetector
+import android.view.MotionEvent
 
 class MainActivity : AppCompatActivity() {
     var data = mutableListOf<String>()
@@ -38,6 +40,23 @@ class MainActivity : AppCompatActivity() {
                 data[position],
                 Toast.LENGTH_SHORT
             ).show()
+        }
+        val gestureDetector = GestureDetector(
+            this,
+            object : GestureDetector.SimpleOnGestureListener() {
+                override fun onDoubleTap(e: MotionEvent): Boolean {
+                    val position = _lv1.pointToPosition(e.x.toInt(), e.y.toInt())
+                    if (position != ListView.INVALID_POSITION) {
+                        val selectedItem = data[position]
+                        showActionDialog(position, selectedItem, data, lvAdapter)
+                    }
+                    return true
+                }
+            }
+        )
+        _lv1.setOnTouchListener { _, event ->
+            gestureDetector.onTouchEvent(event)
+            false
         }
     }
 }
